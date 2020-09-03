@@ -59,7 +59,29 @@ buckets.
 What is the time and space complexity of the counting sort algorithm?
 '''
 def counting_sort(arr, maximum=None):
+    if len(arr) <= 0:
+        return []
+    if min(arr) < 0:
+        return "Error, negative numbers not allowed in Count Sort"
     # Your code here
-
-
+    if maximum is None:
+        maximum = max(arr)
+    counting_list = [0]
+    for _ in range(maximum):
+        counting_list.append(0)
+    for value in arr:
+        counting_list[value] += 1
+    counter = 0
+    for index, value in enumerate(counting_list):
+        counter += value
+        if value > 0:
+            counting_list[index] = counter
+    pointer = 0
+    for index, value in enumerate(counting_list):
+        temp_pointer = pointer
+        pointer = value
+        x = value
+        while x > temp_pointer:
+            arr[x-1] = index
+            x -= 1
     return arr
