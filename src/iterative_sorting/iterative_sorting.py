@@ -1,13 +1,22 @@
 # TO-DO: Complete the selection_sort() function below
 def selection_sort(arr):
     # loop through n-1 elements
-    for i in range(0, len(arr) - 1):
-        cur_index = i
-        smallest_index = cur_index
+    # sorted_index = 0
+    for i in range(0, len(arr)-1):
+        compare_index = i #sorted_index
+        #smallest_index = cur_index
         # TO-DO: find next smallest element
         # (hint, can do in 3 loc)
         # Your code here
-
+        current_value = arr[i+1]
+        while compare_index >= 0:
+            if current_value < arr[compare_index]:
+                arr[compare_index+1] = arr[compare_index]
+                arr[compare_index] = current_value
+                compare_index -= 1
+            else:
+                break
+        # sorted_index = i - 1
 
         # TO-DO: swap
         # Your code here
@@ -18,7 +27,17 @@ def selection_sort(arr):
 # TO-DO:  implement the Bubble Sort function below
 def bubble_sort(arr):
     # Your code here
-
+    sorted = False
+    while not sorted:
+        cleanPass = True
+        for i in range(len(arr)-1):
+            if arr[i] > arr[i+1]:
+                x = arr[i]
+                arr[i] = arr[i+1]
+                arr[i+1] = x
+                cleanPass = False
+        if cleanPass:
+            sorted = True
 
     return arr
 
@@ -31,16 +50,38 @@ data. The idea behind this algorithm then is that we can create "buckets"
 from 0 up to the max value. This is most easily done by initializing an
 array of 0s whose length is the max value + 1 (why do we need this "+ 1"?).
 
-Each buckets[i] then is responsible for keeping track of how many times 
+Each buckets[i] then is responsible for keeping track of how many times
 we've seen `i` in the input set of data as we iterate through it.
 Once we know exactly how many times each piece of data in the input set
-showed up, we can construct a sorted set of the input data from the 
-buckets. 
+showed up, we can construct a sorted set of the input data from the
+buckets.
 
 What is the time and space complexity of the counting sort algorithm?
 '''
 def counting_sort(arr, maximum=None):
+    if len(arr) <= 0:
+        return []
+    if min(arr) < 0:
+        return "Error, negative numbers not allowed in Count Sort"
     # Your code here
-
-
+    if maximum is None:
+        maximum = max(arr)
+    counting_list = [0]
+    for _ in range(maximum):
+        counting_list.append(0)
+    for value in arr:
+        counting_list[value] += 1
+    counter = 0
+    for index, value in enumerate(counting_list):
+        counter += value
+        if value > 0:
+            counting_list[index] = counter
+    pointer = 0
+    for index, value in enumerate(counting_list):
+        temp_pointer = pointer
+        pointer = value
+        x = value
+        while x > temp_pointer:
+            arr[x-1] = index
+            x -= 1
     return arr
